@@ -30,8 +30,8 @@ function App() {
     title: 'Planning',
     paras: [
       'While planning the app, I considered the heirarchy of the components that would be used. The initial <em>wireframe</em> and <em>component tree</em> diagrams can see below. These were helpful for not only nesting html tags in a logical manner, but also to ensure React state variables were held in the correct level of the tree and only passed down when needed.',
-      '<img src="src/img/wireframe.png" alt="Wireframe plan of webpage">',
-      '<img src="src/img/component-tree.png" alt="Component tree diagram of webpage">'
+      '<img src="https://raw.githubusercontent.com/robert-matthew-brooks/carbon-intensity-data-front-end/main/react-data-fetching/src/img/wireframe.png" alt="Wireframe plan of webpage">',
+      '<img src="https://raw.githubusercontent.com/robert-matthew-brooks/carbon-intensity-data-front-end/main/react-data-fetching/src/img/component-tree.png" alt="Component tree diagram of webpage">'
     ]
   };
 
