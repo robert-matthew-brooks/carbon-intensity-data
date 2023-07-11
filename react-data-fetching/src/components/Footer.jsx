@@ -1,7 +1,30 @@
 function Footer() {
+    const footerItems = [
+        {
+            text: 'github repo',
+            link: 'https://github.com/robert-matthew-brooks/carbon-intensity-data-front-end'
+        },
+        {
+            text: 'carbon intensity (data api)',
+            link: 'https://api.carbonintensity.org.uk/'
+        },
+        {
+            text: 'react-chartjs-2 (chart library)',
+            link: 'https://react-chartjs-2.js.org/'
+        }
+    ];
+
     return (
         <footer>
-            <a href="https://github.com/robert-matthew-brooks/fe-react-data-visualisation">https://github.com/robert-matthew-brooks/fe-react-data-visualisation</a>
+            <ul>
+                {footerItems.map((item, i) => {
+                    return (
+                        <li>
+                            <a key={`footer-item-${i}`} href={item.link}>{item.text}</a>
+                        </li>
+                    );
+                })}
+            </ul>
         </footer>
     );
 }
