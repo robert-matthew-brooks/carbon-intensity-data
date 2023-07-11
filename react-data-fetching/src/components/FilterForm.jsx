@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { getFromToDate } from '../js/util.js';
+import { useEffect } from 'react';
+import { getDateDetails } from '../js/util.js';
 
 function FilterForm({ daysBack, setDaysBack }) {
     const days = [0, 1, 2, 3, 4, 5, 6];
@@ -27,13 +27,13 @@ function FilterForm({ daysBack, setDaysBack }) {
     return (
         <section id="filter-form">
             <form onSubmit={e => e.preventDefault()}>
-                <button id="prev" onClick={() => stepDaysBack(e, 1)}>prev</button>
+                <button id="prev" onClick={e => stepDaysBack(e, 1)}>prev</button>
                 <select id="days-back" defaultValue={0} onChange={jumpDaysBack}>
                     {days.map(n => {
-                        return <option key={n} value={n}>{getFromToDate(n).from.formattedDate}</option>
+                        return <option key={n} value={n}>{getDateDetails(n).formattedDate}</option>
                     })}
                 </select>
-                <button id="next" onClick={() => stepDaysBack(e, -1)}>next</button>
+                <button id="next" onClick={e => stepDaysBack(e, -1)}>next</button>
             </form>
         </section>
     );

@@ -1,3 +1,49 @@
+function getDateDetails(daysBack) {
+    const date = new Date();
+    date.setDate(date.getDate() - daysBack);
+    const year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    if (month < 10) month = '0' + month;
+    let day = date.getDate();
+    if (day < 10) day = '0' + day;
+
+    const formattedDate = `
+        ${['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][date.getDay()]}
+        ${date.getDate()}
+        ${['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][date.getMonth()]}
+        ${date.getFullYear()}
+    `.replace(/[ \n]+/g, ' ').slice(1, -1);
+
+    const shortDate = `
+        ${date.getDate()}
+        ${['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'][date.getMonth()]}
+    `.replace(/[ \n]+/g, ' ').slice(1, -1);
+
+    return {
+        year,
+        month,
+        day,
+        formattedDate,
+        shortDate
+    }
+}
+
+function getApiData(daysBack) {
+    const from = getDateDetails(daysBack);
+    const to = getDateDetails(daysBack - 1);
+
+    const dateFrom = `${from.year}-${from.month}-${from.day}T00:00Z`;
+    const dateTo = `${to.year}-${to.month}-${to.day}T00:00Z`;
+
+    return fetch(`https://api.carbonintensity.org.uk/intensity/${dateFrom}/${dateTo}`)
+    .then(response => {
+        return response.json();
+    })
+    .then(({ data }) => {
+        return data;
+    });
+}
+
 function showElement(id) {
     const el = document.getElementById(id);
     el.classList.remove('hide');
@@ -11,45 +57,9 @@ function hideElement(id) {
     el.classList.add('hide');
 }
 
-function getFromToDate(daysBack) {
-    const fromDate = new Date();
-    fromDate.setDate(fromDate.getDate() - daysBack);
-    const fromYear = fromDate.getFullYear();
-    let fromMonth = fromDate.getMonth() + 1;
-    if (fromMonth < 10) fromMonth = '0' + fromMonth;
-    let fromDay = fromDate.getDate();
-    if (fromDay < 10) fromDay = '0' + fromDay;
-
-    const toDate = new Date();
-    toDate.setDate(toDate.getDate() - daysBack + 1);
-    const toYear = toDate.getFullYear();
-    let toMonth = toDate.getMonth() + 1;
-    if (toMonth < 10) toMonth = '0' + toMonth;
-    let toDay = toDate.getDate();
-    if (toDay < 10) toDay = '0' + toDay;
-
-    return {
-        from: {
-            year: fromYear,
-            month: fromMonth,
-            day: fromDay,
-            formattedDate: `
-                ${['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][fromDate.getDay()]}
-                ${fromDate.getDate()}
-                ${['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][fromDate.getMonth()]}
-                ${fromDate.getFullYear()}
-            `
-        },
-        to: {
-            year: toYear,
-            month: toMonth,
-            day: toDay
-        }
-    }
-}
-
 export {
+    getDateDetails,
+    getApiData,
     showElement,
-    hideElement,
-    getFromToDate
+    hideElement
 };

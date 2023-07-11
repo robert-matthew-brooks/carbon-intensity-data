@@ -1,37 +1,17 @@
 import { useState, useEffect } from 'react';
-import { showElement, hideElement, getFromToDate } from '../js/util.js';
-
-import {
-    Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    BarElement,
-
-    Legend,
-  } from 'chart.js';
+import { getApiData, showElement, hideElement } from '../js/util.js';
+import FilterForm from './FilterForm.jsx';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Tooltip, Legend } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 
-ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    BarElement,
-    Legend
-);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
-function getApiData(daysBack, setChartData, setIsLoading) {
+function updateChart(daysBack, setChartData) {
     showElement('day-chart-cover');
 
-    const d = getFromToDate(daysBack);
-
-    const dateFrom = `${d.from.year}-${d.from.month}-${d.from.day}T00:00Z`;
-    const dateTo = `${d.to.year}-${d.to.month}-${d.to.day}T00:00Z`;
-
-    fetch(`https://api.carbonintensity.org.uk/intensity/${dateFrom}/${dateTo}`)
+    getApiData(daysBack)
     .then(response => {
-        return response.json();
-    })
-    .then(({ data }) => {
-        const apiData = data
+        const parsedData = response
         .filter(el => {
             return el.from.slice(-3, -1) === '00';
         })
@@ -43,17 +23,17 @@ function getApiData(daysBack, setChartData, setIsLoading) {
             }
         });
 
-        setChartData(apiData);
+        setChartData(parsedData);
         hideElement('day-chart-cover');
     });
 }
 
-function DayChart ({ daysBack }) {
-    const [isLoading, setIsLoading] = useState(true);
+function DayChart () {
+    const [daysBack, setDaysBack] = useState(0);
     const [chartData, setChartData] = useState([]);
 
     useEffect(() => {
-        getApiData(daysBack, setChartData, setIsLoading);
+        updateChart(daysBack, setChartData);
     }, [daysBack]);
 
     const options = {
@@ -83,8 +63,9 @@ function DayChart ({ daysBack }) {
 
     return (
         <section id="day-chart">
-            <div id="day-chart-cover">Loading...</div>
-            <h2>GB Carbon Intensity Over 24 Hours</h2>
+            <div id="day-chart-cover" className="cover">Loading...</div>
+            <h2>Intensity Over 24 Hours</h2>
+            <FilterForm daysBack={daysBack} setDaysBack={setDaysBack}/>
             <Bar options={options} data={data} />
         </section>
     );
