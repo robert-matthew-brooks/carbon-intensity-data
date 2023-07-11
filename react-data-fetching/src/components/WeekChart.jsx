@@ -75,7 +75,7 @@ function WeekChart() {
 
     return (
         <section id="week-chart">
-            <div id="week-chart-cover" className="cover">Loading2...</div>
+            <div id="week-chart-cover" className="cover">Loading...</div>
             <h2>Intensity Over 7 Days</h2>
             <div className="chart-size">
                 <Pie data={data} />
