@@ -125,6 +125,13 @@ main > section > p > em {
     font-weight: bold;
 }
 
+main > section > p > img {
+    max-width: 70vw;
+    max-height: 70vh;
+    display: block;
+    margin: auto;
+}
+
 main > section > p > a {
     color: #0000ff;
     text-decoration: none;
