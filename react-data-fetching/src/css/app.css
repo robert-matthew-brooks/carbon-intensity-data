@@ -1,0 +1,151 @@
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #d0d0d0;
+    font-size: calc(0.3em + 0.8vw);
+    font-family: Arial;
+    color: #202020;
+}
+
+.show {
+    animation: fadeIn 1.5s forwards;
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    20% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+.hide {
+    visibility: hidden;
+}
+
+.app {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    text-align: center;
+}
+
+.app main {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.app > main > section {
+    width: 75%;
+    margin: auto;
+    padding: 1.6em;
+    background-color: #f0f0f0;
+    border: 2px dotted #a0a0a0;
+    box-shadow: 0 0 40px 10px #c0c0c0;
+}
+
+header {
+    display: grid;
+    grid-template-columns: min-content auto;
+    grid-template-rows: min-content auto;
+    grid-template-areas: 
+        "image header"
+        "image subheader";
+    
+    z-index: 1;
+    padding: 1em;
+    color: #ffffff;
+    background-image: linear-gradient(#202020, #808080)
+}
+
+header img {
+    grid-area: image;
+    height: 6em;
+    margin: 0.5em;
+    margin-right: 3em;
+}
+
+header h1 {
+    grid-area: header;
+    text-align: left;
+    font-size: 2.8em;
+    text-shadow: 3px 3px #000000;
+}
+
+header h3 {
+    grid-area: subheader;
+    text-align: left;
+    font-size: 1.2em;
+    font-style: italic;
+}
+
+#filter-form form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+}
+
+#filter-form button {
+    padding: 0.2em;
+    font-size: 1em;
+    border: none;
+    background-color: #d0d0d0;
+    cursor: pointer;
+}
+
+#filter-form button:hover:enabled {
+    background-color: #e0e0e0;
+}
+
+#filter-form select {
+    padding: 3px;
+    border: 1px solid black;
+    font-size: 1.3em;
+    background-color: #ffffff;
+    cursor: pointer;
+}
+
+#day-chart {
+    position: relative;
+    padding-left: 4em;
+    padding-right: 4em;
+}
+
+#day-chart h2 {
+    margin-bottom: 1em;
+    font-size: 1.9em;
+    text-decoration: underline;
+}
+
+#day-chart-cover {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2em;
+    background: #ffffffc0;
+}
+
+footer {
+    z-index: 1;
+    padding: 1em;
+    background-color: #303030;
+}
+
+footer a {
+    color: #a0a0a0;
+    font-size: 0.8em;
+    text-decoration: none;
+}
+
+footer a:hover {
+    color: #ffffff;
+    text-decoration: underline;
+}
