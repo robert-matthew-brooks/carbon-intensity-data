@@ -41,7 +41,13 @@ function WeekChart() {
 
     useEffect(() => {
         (async () => {
-            await updateChart(setChartData);
+            try {
+                await updateChart(setChartData);
+            }
+
+            catch(err) {
+                throw new Error(err);
+            }
         })();
     }, []);
 
