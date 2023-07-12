@@ -6,26 +6,26 @@ import { Bar } from 'react-chartjs-2';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
-function updateChart(daysBack, setChartData) {
+async function updateChart(daysBack, setChartData) {
     showElement('day-chart-cover');
 
-    getApiData(daysBack)
-    .then(response => {
-        const parsedData = response
-        .filter(el => {
-            return el.from.slice(-3, -1) === '00';
-        })
-        .map(el => {
-            return {
-                time: el.from.slice(-6, -1),
-                actual: el.intensity.actual,
-                forecast: el.intensity.forecast
-            }
-        });
-
-        setChartData(parsedData);
-        hideElement('day-chart-cover');
+    const response = await getApiData(daysBack);
+    
+    
+    const parsedData = response
+    .filter(el => {
+        return el.from.slice(-3, -1) === '00';
+    })
+    .map(el => {
+        return {
+            time: el.from.slice(-6, -1),
+            actual: el.intensity.actual,
+            forecast: el.intensity.forecast
+        }
     });
+
+    setChartData(parsedData);
+    hideElement('day-chart-cover');
 }
 
 function DayChart () {
@@ -33,7 +33,15 @@ function DayChart () {
     const [chartData, setChartData] = useState([]);
 
     useEffect(() => {
-        updateChart(daysBack, setChartData);
+        (async () => {
+            try {
+                await updateChart(daysBack, setChartData);
+            }
+
+            catch(err) {
+                throw new Error(err);
+            }
+        })();
     }, [daysBack]);
 
     const options = {

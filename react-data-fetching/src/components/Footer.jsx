@@ -19,8 +19,8 @@ function Footer() {
             <ul>
                 {footerItems.map((item, i) => {
                     return (
-                        <li>
-                            <a key={`footer-item-${i}`} href={item.link}>{item.text}</a>
+                        <li key={`footer-item-${i}`}>
+                            <a href={item.link}>{item.text}</a>
                         </li>
                     );
                 })}

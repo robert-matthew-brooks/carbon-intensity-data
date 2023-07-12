@@ -5,7 +5,7 @@ import { Pie } from 'react-chartjs-2';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-function updateChart(setChartData) {
+async function updateChart(setChartData) {
     showElement('week-chart-cover');
 
     const dataRequests = [];
@@ -14,34 +14,35 @@ function updateChart(setChartData) {
         dataRequests.push(getApiData(i));
     }
 
-    Promise.all(dataRequests)
-    .then(responses => {
-        const parsedData = [];
-        
-        for (const i in responses) {
-            const filteredResponse = responses[i].filter(el => el.intensity.actual !== null);
+    const responses = await Promise.all(dataRequests);
 
-            const totalIntensity = filteredResponse.reduce((acc, el) => {
-                return acc + el.intensity.actual;
-            }, 0);
-            const avgIntensity = Math.round(totalIntensity / filteredResponse.length);
+    const parsedData = [];
+    
+    for (const i in responses) {
+        const filteredResponse = responses[i].filter(el => el.intensity.actual !== null);
 
-            parsedData.push({
-                date: getDateDetails(i).shortDate,
-                avgIntensity
-            });
-        }
+        const totalIntensity = filteredResponse.reduce((acc, el) => {
+            return acc + el.intensity.actual;
+        }, 0);
+        const avgIntensity = Math.round(totalIntensity / filteredResponse.length);
 
-        setChartData(parsedData);
-        hideElement('week-chart-cover');
-    });
+        parsedData.push({
+            date: getDateDetails(i).shortDate,
+            avgIntensity
+        });
+    }
+
+    setChartData(parsedData);
+    hideElement('week-chart-cover');
 }
 
 function WeekChart() {
     const [chartData, setChartData] = useState([]);
 
     useEffect(() => {
-        updateChart(setChartData);
+        (async () => {
+            await updateChart(setChartData);
+        })();
     }, []);
 
     const data = {

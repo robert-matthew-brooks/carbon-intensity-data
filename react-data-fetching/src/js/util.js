@@ -28,20 +28,16 @@ function getDateDetails(daysBack) {
     }
 }
 
-function getApiData(daysBack) {
+async function getApiData(daysBack) {
     const from = getDateDetails(daysBack);
     const to = getDateDetails(daysBack - 1);
 
     const dateFrom = `${from.year}-${from.month}-${from.day}T00:00Z`;
     const dateTo = `${to.year}-${to.month}-${to.day}T00:00Z`;
 
-    return fetch(`https://api.carbonintensity.org.uk/intensity/${dateFrom}/${dateTo}`)
-    .then(response => {
-        return response.json();
-    })
-    .then(({ data }) => {
-        return data;
-    });
+    const response = await fetch(`https://api.carbonintensity.org.uk/intensity/${dateFrom}/${dateTo}`);
+    const { data } = await response.json();
+    return data;
 }
 
 function showElement(id) {
