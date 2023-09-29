@@ -2,7 +2,7 @@ function Footer() {
     const footerItems = [
         {
             text: 'github repo',
-            link: 'https://github.com/robert-matthew-brooks/carbon-intensity-data-front-end'
+            link: 'https://github.com/robert-matthew-brooks/carbon-intensity-data'
         },
         {
             text: 'carbon intensity (data api)',
